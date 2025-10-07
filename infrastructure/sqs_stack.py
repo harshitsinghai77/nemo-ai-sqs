@@ -1,6 +1,7 @@
 from aws_cdk import (
     Stack,
     aws_sqs as sqs,
+    Duration,
     CfnOutput,
 )
 from constructs import Construct
@@ -14,6 +15,7 @@ class NemoAISqsStack(Stack):
             queue_name="nemo-ai-tasks.fifo",
             fifo=True,
             content_based_deduplication=True,
+            visibility_timeout=Duration.seconds(900)
         )
 
         CfnOutput(self, "NemoAIQueueArn", value=queue.queue_arn, export_name="NemoAIQueueArn")
